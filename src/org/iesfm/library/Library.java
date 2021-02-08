@@ -1,5 +1,8 @@
 package org.iesfm.library;
 
+import org.iesfm.library.exceptions.BookNotFoundException;
+import org.iesfm.library.exceptions.MemberNotFoundException;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -48,22 +51,59 @@ public class Library implements ILibrary {
     @Override
     public void showMembers(int cp) {
         System.out.println("Los socios de la biblioteca residentes en " + cp + " son:");
-        for (Member member: members) {
-            if(member.isFrom(cp)) {
+        for (Member member : members) {
+            if (member.isFrom(cp)) {
                 member.info();
             }
         }
     }
 
+    private Member findMember(String nif) throws MemberNotFoundException {
+        Member result = null;
+        for (Member member : members) {
+            if (member.getNif().equals(nif)) {
+                result = member;
+            }
+        }
+        if (result == null) {
+            throw new MemberNotFoundException(nif);
+        }
+        return result;
+    }
+
     @Override
     public void showMemberLends(String nif) {
-
     }
 
 
     @Override
     public void showMemberLends(int numMember) {
 
+    }
+
+    @Override
+    public void showMemberInfo(String nif) throws MemberNotFoundException {
+        Member member = findMember(nif);
+        member.info();
+    }
+
+    private Book findBook(int isbn) throws BookNotFoundException{
+        Book result = null;
+        for (Book book : books){
+            if (book.getIsbn() == isbn){
+                result = book;
+            }
+        }
+        if (result == null){
+            throw new BookNotFoundException(isbn);
+        }
+        return result;
+    }
+
+    @Override
+    public void showBook(int isbn) throws BookNotFoundException {
+        Book book = findBook(isbn);
+        book.info();
     }
 
     @Override

@@ -1,5 +1,8 @@
 package org.iesfm.library;
 
+import org.iesfm.library.exceptions.BookNotFoundException;
+import org.iesfm.library.exceptions.MemberNotFoundException;
+
 public interface ILibrary {
 
     void showBooks();
@@ -13,6 +16,10 @@ public interface ILibrary {
     void showMemberLends(String nif);
 
     void showMemberLends(int numMember);
+
+    void showMemberInfo(String nif) throws MemberNotFoundException;
+
+    void showBook(int isbn) throws BookNotFoundException;
 
     // is has
 
